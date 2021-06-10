@@ -1,0 +1,24 @@
+docker-compose-yaml: docker-compose.yml
+
+project: nztechweek
+
+environment_variables:
+  git_sha: 'true'
+
+tasks:
+#   pre-rollout:
+#     - run:
+#         name: sql-dump
+#         command: dump-db.sh
+#         service: cli
+
+  post-rollout:
+    - run:
+        name: Build database
+        command: ./vendor/bin/sake dev/build
+        service: cli
+        shell: bash
+    - run:
+        name: Show dev tasks
+        command: ./vendor/bin/sake dev/
+        service: cli
